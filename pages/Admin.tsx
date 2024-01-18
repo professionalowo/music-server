@@ -10,7 +10,7 @@ const Admin = () => {
             <div>
                 <button>Submit</button>
             </div>
-            <script src="/static/upload.js" defer />
+            <script src="/static/js/upload.js" defer />
         </form>
     </div>
 }
