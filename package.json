@@ -1,0 +1,19 @@
+{
+  "name": "music-server",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tailwindcss": "^3.4.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "tailwind:dev" :"bunx tailwindcss --watch -i ./pages/input.css -o ./static/output.css"
+  },
+  "dependencies": {
+    "hono": "^3.12.5"
+  }
+}
