@@ -1,14 +1,11 @@
 import { Hono } from "hono";
 import { Music } from "../../pages/Music";
-import { readMp3Content } from "../functions/fileReader";
 import { Song } from "../../pages/Song";
 
 const musicRouter = new Hono();
 
-musicRouter.get("/",async (c) => {
-    //exclude source
-    const files = await readMp3Content();
-    return c.render(<Music availableSongs={files}/>);
+musicRouter.get("/",(c) => {
+    return c.render(<Music/>);
 })
 
 musicRouter.get("/:name", (c) => {

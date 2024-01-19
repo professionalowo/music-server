@@ -11,6 +11,8 @@ import mp3StreamMiddleware from "./middleware/fileStreamMiddleware";
 import { jsxRenderer } from "hono/jsx-renderer";
 import { Index } from "../pages/Index";
 import { Layout } from "../pages/Layout/Layout";
+import { Suspense } from "hono/jsx/streaming";
+import { ErrorBoundary } from "hono/jsx";
 
 const app = new Hono();
 
@@ -27,8 +29,14 @@ app.use("/content/*", mp3StreamMiddleware, serveStatic({ root: "./" }))
 app.use("/static/*", serveStatic({ root: "./" }))
 
 app.get("/*", jsxRenderer(({ children }) => {
-    return <Layout>{children}</Layout>
-}))
+    return <Layout>
+        <ErrorBoundary fallback={<div>Out of Service</div>}>
+            <Suspense fallback={<div>Loading...</div>}>
+                {children}
+            </Suspense>
+        </ErrorBoundary>
+    </Layout>
+}, { stream: true }))
 
 app.get("/", (c) => c.render(<Index />))
 
