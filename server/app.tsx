@@ -13,6 +13,7 @@ import { Index } from "../pages/Index";
 import { Layout } from "../pages/Layout/Layout";
 import { Suspense } from "hono/jsx/streaming";
 import { ErrorBoundary } from "hono/jsx";
+import libraryRouter from "./routes/library";
 
 const app = new Hono();
 
@@ -43,6 +44,7 @@ app.get("/", (c) => c.render(<Index />))
 app.route("/api", api);
 app.route("/music", musicRouter)
 app.route("/admin", adminRouter)
+app.route("/library",libraryRouter)
 
 export default {
     port: Bun.env.PORT || 8080,

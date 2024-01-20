@@ -1,26 +1,39 @@
-const player = document.getElementById('player');
+const players = [...document.querySelectorAll('audio')];
 const loopButton = document.getElementById('loop');
 
 const vol = Number(getCookie("volume")) || 1;
 console.log(`Set volume to ${vol}`)
 
 if (vol) {
-    player.volume = vol;
+    for (let player of players) {
+        player.volume = vol;
+    }
 }
 
-
-player.onvolumechange = () => {
-    document.cookie = `volume=${player.volume}`
+for (let player of players) {
+    player.onvolumechange = () => {
+        document.cookie = `volume=${player.volume}`
+        players.forEach(p => p.volume = player.volume)
+    }
+    player.onended = () => {
+        if (player.loop) return;
+        const next = players[players.indexOf(player) + 1 % players.length] || players[0];
+        next.play();
+    }
+    const loopButton = player.parentElement.querySelector("button");
+    player.loopButton = loopButton;
+    loopButton.onclick = () => {
+        const img = loopButton.querySelector("img")
+        if (player.loop) {
+            player.loop = false;
+            img.src = "/static/img/repeat.svg"
+        } else { 
+            player.loop = true;
+            img.src = "/static/img/repeat-1.svg"
+        }
+    }
 }
 
-loopButton.addEventListener("click", (e) => {
-    player.loop = !player.loop;
-    const img = loopButton.querySelector("img")
-    if (player.loop)
-        img.src = "/static/img/repeat-1.svg"
-    else
-        img.src = "/static/img/repeat.svg"
-})
 
 
 function getCookie(cname) {

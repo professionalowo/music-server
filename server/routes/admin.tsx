@@ -1,5 +1,7 @@
 import { Hono } from "hono";
 import Admin from "../../pages/Admin";
+import mp3UploadValidationMiddleware, { type FormSchema } from "../middleware/mp3ValidationMiddleware";
+import { insertIntoSongQuery } from "../../db/migration/migration";
 const adminRouter = new Hono()
 
 
@@ -8,15 +10,13 @@ adminRouter.get("/", (c) => {
 })
 
 
-adminRouter.post("/", async (c) => {
-    const body = await c.req.parseBody();
+adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
+    const { name, file, artist } = await c.req.parseBody<FormSchema>();
+    await Bun.write(`content/${name}`, file)
 
-    const blob = body["file"];
-    const name = body["name"];
-    await Bun.write(`content/${name}`, blob)
-    console.log(`Saved file ${name}`)
-
-    return c.redirect("/music")
+    insertIntoSongQuery({ $name: name, $artist: artist, $uri: `content/${name}` });
+    
+    return c.redirect("/music");
 })
 
 export default adminRouter;
