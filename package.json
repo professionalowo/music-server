@@ -10,6 +10,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
+    "build": "bun run ./build.ts",
     "dev": "bun --watch index.ts",
     "tailwind:dev": "bunx tailwindcss --watch -i ./pages/input.css -o ./static/output.css",
     "generate": "bun run db/migration/migration.ts"
