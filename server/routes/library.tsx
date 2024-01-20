@@ -1,7 +1,6 @@
 import { Hono } from "hono";
-import app from "../app";
-import { Library } from "../../pages/Library";
-import { Artist } from "../../pages/Artist";
+import { Library } from "@p/Library";
+import { Artist } from "@p/Artist";
 
 const libraryRouter = new Hono();
 

@@ -1,5 +1,4 @@
 const players = [...document.querySelectorAll('audio')];
-const loopButton = document.getElementById('loop');
 
 const vol = Number(getCookie("volume")) || 1;
 console.log(`Set volume to ${vol}`)
