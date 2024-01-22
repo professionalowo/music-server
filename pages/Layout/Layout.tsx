@@ -1,6 +1,8 @@
-import type { Child } from "hono/jsx";
+import { type Child } from "hono/jsx";
 import { Navbar } from "./Navbar";
+
 export function Layout({ children }: { children: Child | undefined }) {
+
     return (
         <html lang="en">
             <head>
