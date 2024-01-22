@@ -14,20 +14,21 @@ import { Layout } from "../pages/Layout/Layout";
 import { Suspense } from "hono/jsx/streaming";
 import { ErrorBoundary } from "hono/jsx";
 import libraryRouter from "./routes/library";
+import { compressMiddleware } from "./middleware/gzipMiddleware";
+import { cacheControl } from "./middleware/cacheHandlerMiddleware";
 
 const app = new Hono();
-
 
 app.use("*", basicAuth({
     username: "admin",
     password: Bun.env.ADMIN_PW!,
 
 }))
-const handlers = [etag({}), logger(), csrf()]
-app.use('*', ...handlers)
+const globalHandlers = [compressMiddleware, logger(), csrf()]
+app.use('*', ...globalHandlers)
 
-app.use("/content/*", mp3StreamMiddleware, serveStatic({ root: "./" }))
-app.use("/static/*", serveStatic({ root: "./" }))
+app.use("/content/*", mp3StreamMiddleware, cacheControl({ cache: false }), etag({ weak: true }), serveStatic({ root: "./" }))
+app.use("/static/*", cacheControl({ cache: true, maxAge: 60000 }), etag(), serveStatic({ root: "./" }))
 
 app.get("/*", jsxRenderer(({ children }) => {
     return <Layout>
@@ -37,7 +38,7 @@ app.get("/*", jsxRenderer(({ children }) => {
             </Suspense>
         </ErrorBoundary>
     </Layout>
-}, { stream: true }))
+}, { stream: true, docType: true }))
 
 app.get("/", (c) => c.render(<Index />))
 

@@ -20,7 +20,7 @@ const getAllSongsQuery: GetAllQuery<SongSchema> = () => (db.query("SELECT * FROM
 const getAllArtistsQuery: GetAllQuery<ArtistSchema> = () => (db.query("SELECT * FROM artists").all()) as SongSchema[];
 
 const getSongsByArtistQuery: WhereQuery<SongSchema, "artist"> = (where) => (db.query("SELECT * FROM songs WHERE artist = $artist").all(where)) as SongSchema[];
-const getSongByNameQuery: WhereQuery<SongSchema, "name"> = (where) => [(db.query("SELECT * FROM songs WHERE name = $name").get(where))] as SongSchema[]
+const getSongByNameQuery: WhereQuery<SongSchema, "name"> = (where) => [(db.query("SELECT * FROM songs WHERE name = $name").get(where))] as [SongSchema]
 
 const client = {
     artists: {
@@ -39,4 +39,4 @@ const client = {
     }
 } as const satisfies DbClient;
 
-    export default client;
+export default client;
