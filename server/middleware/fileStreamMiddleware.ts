@@ -6,7 +6,7 @@ export default async function mp3StreamMiddleware(c: Context, next: Next) {
     const { path } = c.req;
     if (path.endsWith(".mp3")) {
         console.log("Streaming mp3 file");
-
+        c.header("Content-Type", "audio/mpeg");
         const file = Bun.file(path.substring(1).replaceAll("%20", " "));
         if (!await file.exists()) return c.status(404);
 
@@ -15,6 +15,6 @@ export default async function mp3StreamMiddleware(c: Context, next: Next) {
         });
     }
 
-    
+
     await next();
 }

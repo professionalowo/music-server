@@ -15,6 +15,7 @@ import { Suspense } from "hono/jsx/streaming";
 import { ErrorBoundary } from "hono/jsx";
 import libraryRouter from "./routes/library";
 import type { ServeOptions } from "bun";
+import { cors } from "hono/cors";
 
 const app = new Hono();
 
@@ -45,7 +46,7 @@ app.get("/", (c) => c.render(<Index />))
 app.route("/api", api);
 app.route("/music", musicRouter)
 app.route("/admin", adminRouter)
-app.route("/library",libraryRouter)
+app.route("/library", libraryRouter)
 
 export default {
     port: Number(Bun.env.PORT) || 8080,
