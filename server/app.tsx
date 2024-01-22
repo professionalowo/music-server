@@ -14,6 +14,7 @@ import { Layout } from "../pages/Layout/Layout";
 import { Suspense } from "hono/jsx/streaming";
 import { ErrorBoundary } from "hono/jsx";
 import libraryRouter from "./routes/library";
+import type { ServeOptions } from "bun";
 
 const app = new Hono();
 
@@ -47,6 +48,6 @@ app.route("/admin", adminRouter)
 app.route("/library",libraryRouter)
 
 export default {
-    port: Bun.env.PORT || 8080,
+    port: Number(Bun.env.PORT) || 8080,
     fetch: app.fetch
-};
+} satisfies ServeOptions;
