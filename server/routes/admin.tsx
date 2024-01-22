@@ -11,10 +11,9 @@ adminRouter.get("/", (c) => {
 
 
 adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
-    const { name, file, artist } = await c.req.parseBody<FormSchema>();
-    await Bun.write(`content/${name}`, file)
-
-    client.songs.insert({ $name: name, $artist: artist, $uri: `content/${name}` });
+    const { name, file, artist, file_name } = await c.req.parseBody<FormSchema>();
+    await Bun.write(`content/${file_name}`, file)
+    client.songs.insert({ $name: name, $artist: artist, $uri: file_name });
 
     return c.redirect("/music");
 })

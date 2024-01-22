@@ -2,10 +2,11 @@ const Admin = () => {
     return <form method="post" enctype="multipart/form-data" class="flex flex-col gap-3">
         <div class="flex flex-col gap-4">
             <label for="name">Name:</label>
-            <input readonly id="name" name="name" class="bg-slate-600" type="text" required></input>
+            <input id="name" name="name" class="bg-slate-600" type="text" required></input>
             <label for="artist">Artist:</label>
             <input id="artist" name="artist" class="bg-slate-600" type="text" required></input>
             <label for="file">Upload MP3 file:</label>
+            <input name="file_name" id="file_name" readonly type="hidden"></input>
             <input type="file" id="file" name="file" accept="audio/mp3" required />
         </div>
         <div>

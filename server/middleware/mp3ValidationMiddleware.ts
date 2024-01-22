@@ -4,6 +4,7 @@ import { z } from "zod"
 const formSchema = z.object({
     name: z.string().min(1),
     artist: z.string().min(1),
+    file_name: z.string().min(1),
     file: z.instanceof(File)
 })
 

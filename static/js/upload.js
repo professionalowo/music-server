@@ -1,5 +1,5 @@
 const fileInput = document.getElementById("file")
-const nameElement = document.getElementById("name")
+const nameElement = document.getElementById("file_name")
 
 
 fileInput.onchange = () => {
