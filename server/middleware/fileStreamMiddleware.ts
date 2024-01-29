@@ -14,7 +14,6 @@ export default async function mp3StreamMiddleware(c: Context, next: Next) {
             await stream.pipe(file.stream())
         });
     }
-
-
+    
     await next();
 }

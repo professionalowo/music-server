@@ -14,7 +14,7 @@ import { Layout } from "../pages/Layout/Layout";
 import { Suspense } from "hono/jsx/streaming";
 import { ErrorBoundary } from "hono/jsx";
 import libraryRouter from "./routes/library";
-import { compressMiddleware } from "./middleware/gzipMiddleware";
+import { gzip } from "./middleware/gzipMiddleware";
 import { cacheControl } from "./middleware/cacheHandlerMiddleware";
 
 const app = new Hono();
@@ -24,10 +24,10 @@ app.use("*", basicAuth({
     password: Bun.env.ADMIN_PW!,
 
 }))
-const globalHandlers = [compressMiddleware, logger(), csrf()]
+const globalHandlers = [gzip({ level: 9, memLevel: 9 }), logger(), csrf()]
 app.use('*', ...globalHandlers)
 
-app.use("/content/*", mp3StreamMiddleware, cacheControl({ cache: false }), etag({ weak: true }), serveStatic({ root: "./" }))
+app.use("/content/*", mp3StreamMiddleware, cacheControl({ cache: false }), serveStatic({ root: "./" }))
 app.use("/static/*", cacheControl({ cache: true, maxAge: 60000 }), etag(), serveStatic({ root: "./" }))
 
 app.get("/*", jsxRenderer(({ children }) => {
