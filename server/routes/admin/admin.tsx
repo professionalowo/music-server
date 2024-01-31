@@ -8,8 +8,6 @@ import { Hono } from "hono";
 
 const adminRouter = new Hono();
 
-
-
 adminRouter.get("/", (c) => {
     return c.render(<Admin />);
 })

@@ -16,6 +16,7 @@ import { ErrorBoundary } from "hono/jsx";
 import libraryRouter from "./routes/library";
 import { gzip } from "./middleware/gzipMiddleware";
 import { cacheControl } from "./middleware/cacheHandlerMiddleware";
+import type { ServeOptions } from "bun";
 
 const app = new Hono();
 
@@ -47,7 +48,7 @@ app.route("/music", musicRouter)
 app.route("/admin", adminRouter)
 app.route("/library", libraryRouter)
 
-export default {
+export const server: ServeOptions = {
     port: Bun.env.PORT || 8080,
     fetch: app.fetch
-};
+} as const;
