@@ -10,6 +10,7 @@ export function Layout({ children }: { children: Child | undefined }) {
                 <link href="/static/css/output.css" rel="stylesheet"></link>
                 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
                 <title>Deez Nuts</title>
+                <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
             </head>
             <body class="bg-slate-900 text-slate-200 min-w-screen text-xl min-h-screen">
                 <Navbar />
