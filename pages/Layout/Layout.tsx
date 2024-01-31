@@ -12,12 +12,11 @@ export function Layout({ children }: { children: Child | undefined }) {
                 <PrefetchList/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
                 <title>Deez Nuts</title>
-                <script src="/static/js/nav.js" defer/>
                 <script src="https://unpkg.com/htmx.org@1.9.10"></script>
             </head>
-            <body class="bg-slate-900 text-slate-200 min-w-screen text-xl min-h-screen">
+            <body class="bg-slate-900 text-slate-200 w-screen text-xl h-screen flex flex-col">
                 <Navbar />
-                <div class="p-3 flex justify-center items-center h-fit w-full" id="app" hx-boost="true">{children}</div>
+                <div class="flex-grow flex justify-center w-full" id="app" hx-boost="true">{children}</div>
             </body>
         </html>
     )

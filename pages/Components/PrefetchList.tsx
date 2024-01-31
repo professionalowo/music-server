@@ -1,12 +1,12 @@
 export default function PrefetchList() {
     return <>
-        <Prefetch href="/static/js/player.js" />
-        <Prefetch href="/static/img/repeat-1.svg" />
-        <Prefetch href="/static/img/repeat.svg" />
+        <Prefetch href="/static/js/player.js" as="script" />
+        <Prefetch href="/static/img/repeat-1.svg" as="image" />
+        <Prefetch href="/static/img/repeat.svg" as="image" />
     </>
 }
 
-function Prefetch(props: { href: string }) {
+function Prefetch(props: { href: string, as?: "script" | "style" | "image" }) {
     return <link {...props} rel="prefetch" />
 }
 
@@ -15,7 +15,7 @@ function Prerender(props: { hrefs: string[] }) {
         "prerender":[
             {
                 "source":"list",
-                "urls": [${props.hrefs.map(p=>`"${p}"`)}]
+                "urls": [${props.hrefs.map(p => `"${p}"`)}]
             }
         ]
     }`

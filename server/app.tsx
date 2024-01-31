@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import musicRouter from "./routes/music";
-import adminRouter from "./routes/admin";
+import adminRouter from "./routes/admin/admin";
 import api from "./routes/api/api";
 import { basicAuth } from "hono/basic-auth";
 import { etag } from "hono/etag";
@@ -27,7 +27,7 @@ app.use("*", basicAuth({
 const globalHandlers = [gzip({ level: 9, memLevel: 9 }), logger(), csrf()]
 app.use('*', ...globalHandlers)
 
-app.use("/content/*", mp3StreamMiddleware, serveStatic({ root: "./" }))
+app.use("/content/*", mp3StreamMiddleware, cacheControl({ cache: false }), serveStatic({ root: "./" }))
 app.use("/static/*", cacheControl({ cache: true, maxAge: 60000 }), etag(), serveStatic({ root: "./" }))
 
 app.get("/*", jsxRenderer(({ children }) => {

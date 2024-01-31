@@ -1,14 +1,18 @@
-import { Hono } from "hono";
 import Admin from "@p/Admin";
-import mp3UploadValidationMiddleware, { type FormSchema } from "../middleware/mp3ValidationMiddleware";
+import mp3UploadValidationMiddleware, { type FormSchema } from "../../middleware/mp3ValidationMiddleware";
 import client from "@db/db";
-const adminRouter = new Hono()
+import { songsRouter } from "./songsRouter";
+import { artistsRouter } from "./artistsRouter";
+import { albumsRouter } from "./albumsRouter";
+import { Hono } from "hono";
+
+const adminRouter = new Hono();
+
 
 
 adminRouter.get("/", (c) => {
     return c.render(<Admin />);
 })
-
 
 adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
     const { name, file, artist, file_name } = await c.req.parseBody<FormSchema>();
@@ -18,4 +22,10 @@ adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
     return c.redirect("/music");
 })
 
+
+
+
+adminRouter.route("/artists", artistsRouter);
+adminRouter.route("/songs", songsRouter);
+adminRouter.route("/albums", albumsRouter);
 export default adminRouter;
