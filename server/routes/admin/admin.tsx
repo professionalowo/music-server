@@ -1,15 +1,18 @@
-import Admin from "@p/Admin";
+import Admin from "@p/Admin/Admin";
 import mp3UploadValidationMiddleware, { type FormSchema } from "../../middleware/mp3ValidationMiddleware";
 import client from "@db/db";
 import { songsRouter } from "./songsRouter";
 import { artistsRouter } from "./artistsRouter";
 import { albumsRouter } from "./albumsRouter";
 import { Hono } from "hono";
+import { AdminLayout } from "@p/Layout/AdminLayout";
 
 const adminRouter = new Hono();
 
 adminRouter.get("/", (c) => {
-    return c.render(<Admin />);
+    return c.render(<AdminLayout>
+        <Admin />
+    </AdminLayout>);
 })
 
 adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
@@ -19,8 +22,6 @@ adminRouter.post("/", mp3UploadValidationMiddleware, async (c) => {
 
     return c.redirect("/music");
 })
-
-
 
 
 adminRouter.route("/artists", artistsRouter);

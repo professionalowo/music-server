@@ -9,3 +9,8 @@ const createArtistIndexOnSongTable = db.query("CREATE INDEX IF NOT EXISTS artist
 createArtistIndexOnSongTable.run();
 const createArtistTriggerOnSongTable = db.query("CREATE TRIGGER IF NOT EXISTS artist_trigger AFTER INSERT ON songs BEGIN SELECT 1 FROM artists WHERE name = NEW.artist LIMIT 1; INSERT OR IGNORE INTO artists(name) VALUES (NEW.artist); END;");
 createArtistTriggerOnSongTable.run();
+
+const createAlbumTableQuery = db.query("CREATE TABLE IF NOT EXISTS albums (name TEXT PRIMARY KEY, artist TEXT NOT NULL, FOREIGN KEY(artist) REFERENCES artists(name))");
+createAlbumTableQuery.run();
+const createArtistIndexOnAlbumsTable = db.query("CREATE INDEX IF NOT EXISTS artist_idx on albums(artist)");
+createArtistIndexOnAlbumsTable.run();
