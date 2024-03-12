@@ -1,15 +1,9 @@
 # music-server
 
-To install dependencies:
+Simple self-hosted music server using Typescript, React, Hono, Tailwind and Bun.
 
-```bash
-bun install
-```
+The backend in written in Typescript using the [hono](https://github.com/honojs/hono) framework.
+Hono, together with React powers the server side rendered frontend.
+The database is implemented using bun:sqlite and a typescript layer for typesafety.
 
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.0.23. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Also features custom gzip middleware handler.
